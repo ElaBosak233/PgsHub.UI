@@ -1,0 +1,5 @@
+{
+	"extends": ["@nuxtjs/eslint-config-typescript", "prettier"],
+	"plugins": ["prettier"],
+	"rules": {}
+}
