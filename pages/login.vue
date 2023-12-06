@@ -1,15 +1,13 @@
 <template>
 	<div>
 		<v-sheet
-			:height="275"
+			:height="200"
 			min-width="100%"
 			color="green-darken-1"
 			class="d-flex justify-center"
 			style="z-index: -1; background-size: cover"
 		>
-			<div class="text-h4" style="position: relative; top: 52.5%">
-				登录
-			</div>
+			<div class="text-h4" style="position: relative; top: 40%">登录</div>
 		</v-sheet>
 		<div
 			class="d-flex justify-center h-auto"

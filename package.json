@@ -30,7 +30,7 @@
 		"@mdi/font": "^7.3.67",
 		"@pinia/nuxt": "0.4.7",
 		"eslint-plugin-prettier": "^5.0.1",
-		"vuetify": "3.1.11"
+		"vuetify": "3.4.5"
 	},
 	"overrides": {
 		"vue": "3.3.4"
