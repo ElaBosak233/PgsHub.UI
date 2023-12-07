@@ -4,13 +4,22 @@
 		:variant="solved ? 'elevated' : 'tonal'"
 		:color="cardColor"
 		elevation="3"
+		@click="dialog = true"
 	>
 		<v-card-item>
-			<div class="container">
+			<div>
 				<div class="text-overline mb-1">
 					{{ category }}
 				</div>
-				<div class="text-h6 my-1 font-weight-bold">
+				<div
+					class="text-h6 my-1 font-weight-bold"
+					style="
+						width: 200px;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+						overflow: hidden;
+					"
+				>
 					{{ title }}
 				</div>
 				<v-divider thickness="2" />
@@ -26,10 +35,20 @@
 		</v-card-item>
 		<v-icon v-show="solved" class="check" icon="mdi-check" />
 		<v-icon size="200" class="icon" :icon="icon" />
+		<ChallengeDialog
+			v-model="dialog"
+			:category="category"
+			:title="title"
+			:pts="pts"
+		/>
 	</v-card>
 </template>
 
 <script setup lang="ts">
+import { useConfigStore } from "@/store/configStore";
+const configStore = useConfigStore();
+
+const dialog = ref(false);
 interface Props {
 	title?: string;
 	category?: string;
@@ -45,46 +64,8 @@ const props = withDefaults(defineProps<Props>(), {
 	pts: "?",
 	solvedTimes: "?",
 });
-const cardColor = ref("indigo");
-const icon = ref("mdi-fingerprint");
-
-onMounted(() => {
-	cardColor.value = getCardColor();
-	icon.value = getCategoryIcon();
-});
-function getCardColor() {
-	switch (props.category) {
-		case "misc":
-			return "indigo";
-		case "web":
-			return "teal";
-		case "crypto":
-			return "blue-grey";
-		case "reverse":
-			return "deep-orange";
-		case "pwn":
-			return "purple";
-		default:
-			return "indigo";
-	}
-}
-
-function getCategoryIcon() {
-	switch (props.category) {
-		case "misc":
-			return "mdi-fingerprint";
-		case "web":
-			return "mdi-web";
-		case "crypto":
-			return "mdi-pound";
-		case "reverse":
-			return "mdi-chevron-double-left";
-		case "pwn":
-			return "mdi-matrix";
-		default:
-			return "mdi-fingerprint";
-	}
-}
+const cardColor = ref(configStore.categoryColors[props.category]);
+const icon = ref(configStore.categoryIcons[props.category]);
 </script>
 
 <style lang="scss">

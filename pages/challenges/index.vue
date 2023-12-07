@@ -14,31 +14,46 @@
 				<div class="d-flex justify-center">
 					<v-tabs direction="vertical" style="min-width: 200px">
 						<v-tab color="primary" @click="console.log('all')">
-							<v-icon start icon="mdi-book-multiple" />
+							<v-icon :start="true" icon="mdi-book-multiple" />
 							All
 						</v-tab>
-						<v-tab color="indigo">
-							<v-icon start icon="mdi-fingerprint" />
+						<v-tab :color="configStore.categoryColors['misc']">
+							<v-icon
+								:start="true"
+								:icon="configStore.categoryIcons['misc']"
+							/>
 							Misc
 						</v-tab>
-						<v-tab color="teal">
-							<v-icon start icon="mdi-web" />
+						<v-tab :color="configStore.categoryColors['web']">
+							<v-icon
+								:start="true"
+								:icon="configStore.categoryIcons['web']"
+							/>
 							Web
 						</v-tab>
-						<v-tab color="deep-orange">
-							<v-icon start icon="mdi-chevron-double-left" />
+						<v-tab :color="configStore.categoryColors['reverse']">
+							<v-icon
+								:start="true"
+								:icon="configStore.categoryIcons['reverse']"
+							/>
 							Reverse
 						</v-tab>
-						<v-tab color="blue-grey">
-							<v-icon start icon="mdi-pound" />
+						<v-tab :color="configStore.categoryColors['crypto']">
+							<v-icon
+								:start="true"
+								:icon="configStore.categoryIcons['crypto']"
+							/>
 							Crypto
 						</v-tab>
-						<v-tab color="purple">
-							<v-icon start icon="mdi-matrix" />
+						<v-tab :color="configStore.categoryColors['pwn']">
+							<v-icon
+								:start="true"
+								:icon="configStore.categoryIcons['pwn']"
+							/>
 							Pwn
 						</v-tab>
 					</v-tabs>
-					<v-divider vertical />
+					<v-divider :vertical="true" />
 					<div>
 						<div class="d-flex flex-wrap" style="margin-left: 50px">
 							<ChallengeCard
@@ -55,10 +70,9 @@
 								pts="200"
 								solved-times="1"
 								class="ma-2 pa-2"
-								@click="dialog = true"
 							/>
 							<ChallengeCard
-								title="baaaaaaaaase"
+								title="baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaase"
 								category="misc"
 								pts="200"
 								solved-times="1"
@@ -125,23 +139,10 @@
 				</div>
 			</div>
 		</div>
-		<v-dialog v-model="dialog" width="auto">
-			<v-card>
-				<v-card-text>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-					do eiusmod tempor incididunt ut labore et dolore magna
-					aliqua.
-				</v-card-text>
-				<v-card-actions>
-					<v-btn color="primary" block @click="dialog = false"
-						>Close Dialog</v-btn
-					>
-				</v-card-actions>
-			</v-card>
-		</v-dialog>
 	</div>
 </template>
 
 <script setup lang="ts">
-const dialog = ref(false);
+import { useConfigStore } from "@/store/configStore";
+const configStore = useConfigStore();
 </script>

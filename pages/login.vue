@@ -3,7 +3,7 @@
 		<v-sheet
 			:height="200"
 			min-width="100%"
-			color="green-darken-1"
+			color="teal-darken-1"
 			class="d-flex justify-center"
 			style="z-index: -1; background-size: cover"
 		>
@@ -15,7 +15,7 @@
 		>
 			<v-sheet width="400" class="mx-auto" color="transparent">
 				<v-divider class="mb-5" />
-				<v-form fast-fail @submit.prevent="login">
+				<v-form :fast-fail="true" @submit.prevent="login">
 					<v-text-field
 						v-model="username"
 						prepend-inner-icon="mdi-account"
@@ -25,14 +25,14 @@
 						v-model="password"
 						prepend-inner-icon="mdi-pound"
 						label="密码"
-						clearable
+						:clearable="true"
 						type="password"
 					></v-text-field>
 					<v-btn
 						type="submit"
 						size="large"
 						color="primary"
-						block
+						:block="true"
 						class="mt-2"
 						>登录</v-btn
 					>
@@ -50,6 +50,10 @@
 	</div>
 </template>
 <script setup lang="ts">
+import { useSnackBarStore } from "~/store/snackBarStore";
+
+const snackBarStore = useSnackBarStore();
+
 const username = ref("");
 const password = ref("");
 const snackbar = ref(false);
@@ -72,11 +76,13 @@ async function login() {
 		}),
 	});
 	const resObj = res.value as Response;
-	if (resObj.code !== 200) {
-		snackbar.value = true;
-		errMsg.value = resObj.msg;
-	} else {
+	if (resObj && resObj.code === 200) {
 		alert(resObj.token);
+	} else {
+		snackBarStore.showSnackbar(
+			resObj ? resObj.msg : "无法连接到服务器",
+			"error"
+		);
 	}
 }
 </script>

@@ -12,7 +12,9 @@
 			>
 				题库
 			</v-btn>
-			<v-btn prepend-icon="mdi-flag"> 比赛 </v-btn>
+			<v-btn prepend-icon="mdi-flag" @click="$router.push('/games')">
+				比赛
+			</v-btn>
 			<v-btn prepend-icon="mdi-account-multiple"> 团队 </v-btn>
 		</v-toolbar-items>
 		<v-btn icon>
