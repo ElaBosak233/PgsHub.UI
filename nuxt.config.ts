@@ -2,6 +2,7 @@
 import { process } from "std-env";
 
 export default defineNuxtConfig({
+	ssr: false,
 	modules: ["@pinia/nuxt"],
 	pinia: {
 		autoImports: ["defineStore", ["defineStore", "definePiniaStore"]],
@@ -18,6 +19,7 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			baseUrl: process.env.BASE_URL || "/",
+			apiUrl: process.env.API_URL || "/api",
 		},
 	},
 });

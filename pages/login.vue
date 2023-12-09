@@ -4,10 +4,10 @@
 			:height="200"
 			min-width="100%"
 			color="teal-darken-1"
-			class="d-flex justify-center"
+			class="d-flex justify-center align-center"
 			style="z-index: -1; background-size: cover"
 		>
-			<div class="text-h4" style="position: relative; top: 40%">登录</div>
+			<div class="text-h4">登录</div>
 		</v-sheet>
 		<div
 			class="d-flex justify-center h-auto"
@@ -39,25 +39,21 @@
 				</v-form>
 			</v-sheet>
 		</div>
-		<v-snackbar
-			v-model="snackbar"
-			:timeout="2000"
-			variant="tonal"
-			color="transparent"
-		>
-			<v-alert type="error" :text="errMsg"></v-alert>
-		</v-snackbar>
 	</div>
 </template>
 <script setup lang="ts">
-import { useSnackBarStore } from "~/store/snackBarStore";
+import { useSnackBarStore } from "@/store/snackBarStore";
+import { useConfigStore } from "@/store/configStore";
+import { useAuthStore } from "@/store/authStore";
 
 const snackBarStore = useSnackBarStore();
+const configStore = useConfigStore();
+const authStore = useAuthStore();
+
+const router = useRouter();
 
 const username = ref("");
 const password = ref("");
-const snackbar = ref(false);
-const errMsg = ref("");
 
 interface Response {
 	code: number;
@@ -65,7 +61,7 @@ interface Response {
 	token: string;
 }
 async function login() {
-	const { data: res } = await useFetch("http://localhost:8888/user/login", {
+	const { data: res } = await useFetch(configStore.apiUrl + "/user/login", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -77,7 +73,8 @@ async function login() {
 	});
 	const resObj = res.value as Response;
 	if (resObj && resObj.code === 200) {
-		alert(resObj.token);
+		authStore.setPgsToken(resObj?.token);
+		await router.push("/");
 	} else {
 		snackBarStore.showSnackbar(
 			resObj ? resObj.msg : "无法连接到服务器",

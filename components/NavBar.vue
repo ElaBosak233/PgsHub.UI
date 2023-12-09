@@ -1,7 +1,11 @@
 <template>
 	<v-toolbar color="blue-darken-4" dark="true">
 		<v-toolbar-title class="pl-4">
-			<v-chip label class="font-weight-bold" @click="$router.push('/')">
+			<v-chip
+				:label="true"
+				class="font-weight-bold"
+				@click="$router.push('/')"
+			>
 				PgsHub
 			</v-chip>
 		</v-toolbar-title>
@@ -15,7 +19,12 @@
 			<v-btn prepend-icon="mdi-flag" @click="$router.push('/games')">
 				比赛
 			</v-btn>
-			<v-btn prepend-icon="mdi-account-multiple"> 团队 </v-btn>
+			<v-btn
+				prepend-icon="mdi-account-multiple"
+				@click="$router.push('/teams')"
+			>
+				团队
+			</v-btn>
 		</v-toolbar-items>
 		<v-btn icon>
 			<v-icon icon="mdi-hammer-wrench" />

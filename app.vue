@@ -22,20 +22,25 @@
 
 <script lang="ts" setup>
 import NavBar from "@/components/NavBar.vue";
+import WidthLimitOverlay from "@/components/WidthLimitOverlay.vue";
 import { useSnackBarStore } from "@/store/snackBarStore";
-import WidthLimitOverlay from "~/components/WidthLimitOverlay.vue";
-const isWidthTooSmall = ref(false);
+
 const snackBarStore = useSnackBarStore();
+
+const isWidthTooSmall = ref(false);
+
 onMounted(() => {
 	window.addEventListener("resize", checkWindowWidth);
 	checkWindowWidth();
 });
-function checkWindowWidth() {
-	isWidthTooSmall.value = window.innerWidth < 1265;
-}
+
 onBeforeUnmount(() => {
 	window.removeEventListener("resize", checkWindowWidth);
 });
+
+function checkWindowWidth() {
+	isWidthTooSmall.value = window.innerWidth < 1265;
+}
 </script>
 
 <style lang="scss">

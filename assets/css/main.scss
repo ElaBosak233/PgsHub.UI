@@ -4,3 +4,9 @@
   -ms-user-select: none; /* IE/Edge */
   user-select: none;
 }
+
+.avatar-group-item {
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: -15px;
+}

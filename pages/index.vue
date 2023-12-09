@@ -6,11 +6,15 @@
 				alt=""
 				width="400"
 			/>
+			{{ configStore.apiUrl }}
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { useConfigStore } from "@/store/configStore";
+
+const configStore = useConfigStore();
 useHead({
 	title: "PgsHub",
 });

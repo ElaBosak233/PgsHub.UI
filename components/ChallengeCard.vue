@@ -33,8 +33,28 @@
 				</div>
 			</div>
 		</v-card-item>
-		<v-icon v-show="solved" class="check" icon="mdi-check" />
-		<v-icon size="200" class="icon" :icon="icon" />
+		<v-tooltip text="已解决" location="top center">
+			<template #activator="{ props: tooltip }">
+				<v-icon
+					v-show="solved"
+					class="check"
+					icon="mdi-check"
+					style="position: absolute; right: 15px; top: 15px"
+					v-bind="tooltip"
+				/>
+			</template>
+		</v-tooltip>
+		<v-icon
+			size="200"
+			style="
+				position: absolute;
+				right: -20px;
+				bottom: -25px;
+				z-index: -1;
+				opacity: 0.2;
+			"
+			:icon="icon"
+		/>
 		<ChallengeDialog
 			v-model="dialog"
 			:category="category"
@@ -77,17 +97,5 @@ const icon = ref(configStore.categoryIcons[props.category]);
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-.icon {
-	position: absolute;
-	right: -20px;
-	bottom: -25px;
-	z-index: -1;
-	opacity: 0.2;
-}
-.check {
-	position: absolute;
-	right: 15px;
-	top: 15px;
 }
 </style>

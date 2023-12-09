@@ -1,10 +1,12 @@
 export interface ConfigState {
+	apiUrl: string | undefined;
 	categoryIcons: Record<string, string>;
 	categoryColors: Record<string, string>;
 }
 
 export const useConfigStore = defineStore("config", {
 	state: (): ConfigState => ({
+		apiUrl: useRuntimeConfig().public.apiUrl,
 		categoryIcons: {
 			misc: "mdi-fingerprint",
 			web: "mdi-web",

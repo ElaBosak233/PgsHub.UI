@@ -2,7 +2,7 @@
 	<v-card
 		class="game-card no-select d-flex"
 		elevation="3"
-		@click="$router.push('/')"
+		@click="$router.push('/games/1')"
 	>
 		<div class="game-cover" />
 		<div class="pa-3 d-flex" style="width: 100%">
@@ -37,9 +37,19 @@
 		>
 			<v-tooltip activator="parent" location="top center">
 				<div>进行中</div>
-				<div>111</div>
 			</v-tooltip>
 		</v-badge>
+		<v-icon
+			size="200"
+			style="
+				position: absolute;
+				right: 10px;
+				bottom: -25px;
+				z-index: -1;
+				opacity: 0.1;
+			"
+			icon="mdi-flag"
+		/>
 	</v-card>
 </template>
 
@@ -57,8 +67,7 @@ const gameCoverCss = `url(${gameCoverUrl})`;
 }
 .game-cover {
 	display: block;
-	min-width: 20rem;
-	max-width: 20rem;
+	width: 25rem;
 	height: 10rem;
 	background: v-bind(gameCoverCss) center center no-repeat;
 	background-size: cover;
