@@ -5,7 +5,7 @@
 	"scripts": {
 		"start": "cross-env API_URL=http://localhost:8888/api nuxt dev",
 		"build": "cross-env API_URL=/api nuxt build",
-		"dev": "cross-env API_URL=http://localhost:8888/api nuxt dev",
+		"dev": "cross-env API_URL=http://localhost:8888/api nuxt dev --host",
 		"generate": "cross-env API_URL=/api nuxt generate",
 		"preview": "cross-env API_URL=/api nuxt preview",
 		"postinstall": "nuxt prepare",
@@ -21,7 +21,7 @@
 		"eslint-config-prettier": "8.8.0",
 		"jsdom": "21.1.1",
 		"npm-run-all": "4.1.5",
-		"nuxt": "3.3.1",
+		"nuxt": "3.8.2",
 		"prettier": "2.8.7",
 		"sass": "1.60.0",
 		"typescript": "5.0.2",

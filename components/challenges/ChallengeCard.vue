@@ -4,7 +4,7 @@
 		:variant="solved ? 'elevated' : 'tonal'"
 		:color="cardColor"
 		elevation="3"
-		@click="dialog = true"
+		@click="dialog = true;"
 	>
 		<v-card-item>
 			<div>
@@ -57,38 +57,56 @@
 		/>
 		<ChallengeDialog
 			v-model="dialog"
+			:challenge-id="challengeId"
+			:description="description"
 			:category="category"
 			:title="title"
 			:pts="pts"
+			:is-dynamic="isDynamic"
+			:has-attachment="hasAttachment"
+			:duration="duration"
 		/>
 	</v-card>
 </template>
 
 <script setup lang="ts">
 import { useConfigStore } from "@/store/configStore";
+import ChallengeDialog from "@/components/challenges/ChallengeDialog.vue";
 const configStore = useConfigStore();
 
 const dialog = ref(false);
 interface Props {
+	challengeId?: string;
 	title?: string;
 	category?: string;
+	description?: string;
+	isDynamic?: boolean;
+	hasAttachment?: boolean;
+	duration?: number;
 	solved?: boolean;
 	pts?: string;
 	solvedTimes?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
+	challengeId: "20101010",
 	title: "Unknown Challenge",
 	category: "misc",
+	description: "",
+	isDynamic: false,
+	hasAttachment: false,
+	duration: 0,
 	solved: false,
 	pts: "?",
 	solvedTimes: "?",
 });
+
 const cardColor = ref(configStore.categoryColors[props.category]);
 const icon = ref(configStore.categoryIcons[props.category]);
+
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .challenge-card {
 	width: 275px;
 	height: 150px;

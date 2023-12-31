@@ -32,15 +32,28 @@
 				>管理</v-tooltip
 			>
 		</v-btn>
-		<v-btn icon>
+		<v-menu
+			v-if="authStore?.pgsToken"
+			min-width="200px"
+			rounded
+			:close-on-content-click="false"
+		>
+			<template #activator="{ props }">
+				<v-btn icon v-bind="props">
+					<v-icon icon="mdi-account-circle" />
+				</v-btn>
+			</template>
+			<NavBarUserMenu />
+		</v-menu>
+		<v-btn v-if="!authStore?.pgsToken" icon @click="$router.push('/login')">
 			<v-icon icon="mdi-account-circle" />
-			<v-tooltip activator="parent" location="bottom center"
-				>用户</v-tooltip
-			>
 		</v-btn>
 	</v-toolbar>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useAuthStore } from "@/store/authStore";
+const authStore = useAuthStore();
+</script>
 
 <style scoped lang="scss"></style>

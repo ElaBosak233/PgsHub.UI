@@ -88,7 +88,6 @@
 </template>
 
 <script setup lang="ts">
-const route = useRoute();
 const gameCoverUrl =
 	"http://mao.ctf.homes/assets/345e07bc931e95eb94b15ff7951c84a5df16ed9fc6987344445f8b5108307e92/poster";
 const gameCoverCss = `url(${gameCoverUrl})`;

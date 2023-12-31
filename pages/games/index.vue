@@ -43,7 +43,7 @@
 						<div>
 							<GameCard />
 						</div>
-						<v-pagination class="my-4" :length="15"></v-pagination>
+						<v-pagination class="my-4" :length="2"></v-pagination>
 					</div>
 				</div>
 			</div>
@@ -53,5 +53,6 @@
 
 <script setup lang="ts">
 import { useConfigStore } from "@/store/configStore";
+import GameCard from "@/components/games/GameCard.vue";
 const configStore = useConfigStore();
 </script>

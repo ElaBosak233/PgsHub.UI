@@ -45,7 +45,7 @@
 			</div>
 		</v-sheet>
 		<div>
-			<div style="padding: 3% 5%">
+			<div style="padding: 3% 5%" class="d-flex justify-center">
 				<div class="d-flex">
 					<div>
 						<div class="d-flex justify-center">
@@ -223,7 +223,9 @@
 
 <script setup lang="ts">
 import { useConfigStore } from "@/store/configStore";
-import TeamInfoCard from "~/components/TeamInfoCard.vue";
+import TeamInfoCard from "@/components/games/TeamInfoCard.vue";
+import ChallengeCard from "@/components/challenges/ChallengeCard.vue";
+import NotificationCard from "@/components/games/NotificationCard.vue";
 const configStore = useConfigStore();
 const gameCoverUrl =
 	"http://mao.ctf.homes/assets/345e07bc931e95eb94b15ff7951c84a5df16ed9fc6987344445f8b5108307e92/poster";

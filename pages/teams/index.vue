@@ -16,9 +16,9 @@
 			style="padding: 3% 10%"
 		>
 			<div class="d-flex flex-wrap">
-				<TeamCard class="ma-2 pa-2" />
-				<TeamCard class="ma-2 pa-2" />
-				<TeamCard class="ma-2 pa-2" />
+				<div v-for="team in teamStore.teams_by_user_id" :key="team?.team_id">
+					<TeamCard :name="team?.team_name" :is-captain="authStore.id == team?.captain_id" :user-ids="team?.user_ids" :team-id="team?.team_id" class="ma-2 pa-2" />
+				</div>
 			</div>
 			<v-spacer />
 			<v-divider :vertical="true" class="mx-10" />
@@ -51,4 +51,16 @@
 		</div>
 	</div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TeamCard from "@/components/teams/TeamCard.vue";
+import { useTeamStore } from "@/store/teamStore";
+import { useAuthStore } from "@/store/authStore";
+
+const teamStore = useTeamStore();
+const authStore = useAuthStore();
+
+onMounted(async () => {
+	await teamStore.getAllTeams();
+	teamStore.loadTeamsByUserId();
+});
+</script>
