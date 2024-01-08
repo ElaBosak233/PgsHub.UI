@@ -25,10 +25,13 @@
 				<v-divider thickness="2" />
 				<div class="d-flex flex-wrap justify-space-between">
 					<div class="ma-2 pa-2 font-weight-bold">{{ pts }} pts</div>
-					<div class="ma-2 pa-2">
-						<div class="text-caption my-2">
-							{{ solvedTimes }} 次解出
-						</div>
+					<div class="d-flex justify-center align-center">
+						<v-rating
+							:readonly="true"
+							:length="5"
+							:size="24"
+							:model-value="difficulty"
+						/>
 					</div>
 				</div>
 			</div>
@@ -65,6 +68,7 @@
 			:is-dynamic="isDynamic"
 			:has-attachment="hasAttachment"
 			:duration="duration"
+			:difficulty="difficulty"
 		/>
 	</v-card>
 </template>
@@ -86,11 +90,12 @@ interface Props {
 	solved?: boolean;
 	pts?: string;
 	solvedTimes?: string;
+	difficulty?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	challengeId: "20101010",
-	title: "Unknown Challenge",
+	challengeId: "",
+	title: "",
 	category: "misc",
 	description: "",
 	isDynamic: false,
@@ -99,11 +104,11 @@ const props = withDefaults(defineProps<Props>(), {
 	solved: false,
 	pts: "?",
 	solvedTimes: "?",
+	difficulty: 0,
 });
 
 const cardColor = ref(configStore.categoryColors[props.category]);
 const icon = ref(configStore.categoryIcons[props.category]);
-
 </script>
 
 <style scoped lang="scss">

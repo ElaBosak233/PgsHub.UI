@@ -81,8 +81,9 @@
 									:is-dynamic="challenge?.is_dynamic"
 									:has-attachment="challenge?.has_attachment"
 									:pts="String(200)"
-									:solve="true"
+									:solved="true"
 									:solved-times="String(2)"
+									:difficulty="challenge.difficulty"
 									class="ma-2 pa-2"
 								/>
 							</div>

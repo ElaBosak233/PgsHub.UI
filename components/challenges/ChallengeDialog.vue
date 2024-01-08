@@ -16,7 +16,26 @@
 						{{ title }}
 					</div>
 				</div>
-				<div class="font-weight-bold">{{ pts }} pts</div>
+				<div class="d-flex">
+					<v-tooltip v-if="firstBlood" location="top">
+						<template #activator="{ props: p }">
+							<v-icon v-bind="p" icon="mdi-hexagon-slice-6" color="#fcc419"></v-icon>
+						</template>
+						一血：{{ firstBlood }}
+					</v-tooltip>
+					<v-tooltip v-if="secondBlood" location="top">
+						<template #activator="{ props: p }">
+							<v-icon v-bind="p" icon="mdi-hexagon-slice-4" color="#a6a6a6"></v-icon>
+						</template>
+						二血：{{ secondBlood }}
+					</v-tooltip>
+					<v-tooltip v-if="thirdBlood" location="top">
+						<template #activator="{ props: p }">
+							<v-icon v-bind="p" icon="mdi-hexagon-slice-2" color="#f98539"></v-icon>
+						</template>
+						三血：{{ thirdBlood }}
+					</v-tooltip>
+				</div>
 			</div>
 			<v-divider class="my-3" />
 			<div class="d-flex justify-space-between">
@@ -105,18 +124,19 @@
 				</div>
 			</div>
 			<v-divider class="my-3" />
-			<div class="d-flex align-center">
+			<v-form class="d-flex align-center" :fast-fail="true" @submit.prevent="submit()">
 				<v-text-field
 					v-model="flag"
 					prepend-inner-icon="mdi-flag"
 					hide-details
 					density="compact"
 					placeholder="Flag"
+					:clearable="true"
 				/>
-				<v-btn :color="dialogColor" variant="flat" class="ml-2" @click="submit()">
+				<v-btn type="submit" :color="dialogColor" variant="flat" class="ml-2">
 					<span class="font-weight-bold">提交</span>
 				</v-btn>
-			</div>
+			</v-form>
 		</v-card>
 	</v-dialog>
 </template>
@@ -131,6 +151,10 @@ const snackBarStore = useSnackBarStore();
 const configStore = useConfigStore();
 const instanceStore = useInstanceStore();
 
+const firstBlood = ref("");
+const secondBlood = ref("");
+const thirdBlood = ref("");
+
 interface Props {
 	challengeId?: string;
 	title?: string;
@@ -142,6 +166,7 @@ interface Props {
 	pts?: string;
 	attachment?: string;
 	dynamic?: boolean;
+	difficulty?: number;
 }
 const props = withDefaults(defineProps<Props>(), {
 	challengeId: "1",
@@ -153,6 +178,7 @@ const props = withDefaults(defineProps<Props>(), {
 	isDynamic: false,
 	duration: 0,
 	hasAttachment: false,
+	difficulty: 0,
 });
 
 const instanceRunning = ref(false);
@@ -168,6 +194,8 @@ const instanceRemovedAt = ref(0);
 const timeNowUnix = ref(0);
 
 const flag = ref("");
+
+getWinners();
 
 watch(instanceStore.existInstances, () => {
 	if (props.challengeId in instanceStore.existInstances) {
@@ -209,9 +237,38 @@ async function submit() {
 			snackBarStore.showSnackbar("答案正确", "success");
 		} else if (resObj?.status === 2) {
 			snackBarStore.showSnackbar("作弊", "error");
+		} else if (resObj?.status === 3) {
+			snackBarStore.showSnackbar("你已经做出过这道题了", "info");
 		}
 	} else {
 		snackBarStore.showSnackbar(resObj.msg, "error")
+	}
+}
+
+async function getWinners() {
+	interface Response {
+		code: number;
+		data: Array<any>;
+	}
+	const { data: res } = await useAuthFetch(
+		`/submissions/?challenge_id=${props.challengeId}&status=1&page=1&size=3&is_ascend=true?game_id=0`,
+		{
+			method: "GET"
+		});
+	const resObj = res.value as Response;
+	if (resObj.data) {
+		let counter = 1;
+		for (const item of resObj.data) {
+			const userObj = item?.user
+			if (counter === 1) {
+				firstBlood.value = userObj?.name;
+			} else if (counter === 2) {
+				secondBlood.value = userObj?.name;
+			} else if (counter === 3) {
+				thirdBlood.value = userObj?.name;
+			}
+			counter++;
+		}
 	}
 }
 
