@@ -17,23 +17,23 @@
 					</div>
 				</div>
 				<div class="d-flex">
-					<v-tooltip v-if="firstBlood" location="top">
+					<v-tooltip v-if="challengeStore.challengeWinners[challengeId]?.firstBlood" location="top">
 						<template #activator="{ props: p }">
 							<v-icon v-bind="p" icon="mdi-hexagon-slice-6" color="#fcc419"></v-icon>
 						</template>
-						一血：{{ firstBlood }}
+						一血：{{ challengeStore.challengeWinners[challengeId]?.firstBlood }}
 					</v-tooltip>
-					<v-tooltip v-if="secondBlood" location="top">
+					<v-tooltip v-if="challengeStore.challengeWinners[challengeId]?.secondBlood" location="top">
 						<template #activator="{ props: p }">
 							<v-icon v-bind="p" icon="mdi-hexagon-slice-4" color="#a6a6a6"></v-icon>
 						</template>
-						二血：{{ secondBlood }}
+						二血：{{ challengeStore.challengeWinners[challengeId]?.secondBlood }}
 					</v-tooltip>
-					<v-tooltip v-if="thirdBlood" location="top">
+					<v-tooltip v-if="challengeStore.challengeWinners[challengeId]?.thirdBlood" location="top">
 						<template #activator="{ props: p }">
 							<v-icon v-bind="p" icon="mdi-hexagon-slice-2" color="#f98539"></v-icon>
 						</template>
-						三血：{{ thirdBlood }}
+						三血：{{ challengeStore.challengeWinners[challengeId]?.thirdBlood }}
 					</v-tooltip>
 				</div>
 			</div>
@@ -146,14 +146,12 @@ import { useAuthFetch } from "@/composables/useAuthFetch";
 import { useSnackBarStore } from "@/store/snackBarStore";
 import { useConfigStore } from "@/store/configStore";
 import { useInstanceStore } from "@/store/instanceStore";
+import { useChallengeStore } from "@/store/challengeStore";
 
 const snackBarStore = useSnackBarStore();
 const configStore = useConfigStore();
 const instanceStore = useInstanceStore();
-
-const firstBlood = ref("");
-const secondBlood = ref("");
-const thirdBlood = ref("");
+const challengeStore = useChallengeStore();
 
 interface Props {
 	challengeId?: string;
@@ -195,7 +193,7 @@ const timeNowUnix = ref(0);
 
 const flag = ref("");
 
-getWinners();
+// getWinners();
 
 watch(instanceStore.existInstances, () => {
 	if (props.challengeId in instanceStore.existInstances) {
@@ -245,32 +243,32 @@ async function submit() {
 	}
 }
 
-async function getWinners() {
-	interface Response {
-		code: number;
-		data: Array<any>;
-	}
-	const { data: res } = await useAuthFetch(
-		`/submissions/?challenge_id=${props.challengeId}&status=1&page=1&size=3&is_ascend=true?game_id=0`,
-		{
-			method: "GET"
-		});
-	const resObj = res.value as Response;
-	if (resObj.data) {
-		let counter = 1;
-		for (const item of resObj.data) {
-			const userObj = item?.user
-			if (counter === 1) {
-				firstBlood.value = userObj?.name;
-			} else if (counter === 2) {
-				secondBlood.value = userObj?.name;
-			} else if (counter === 3) {
-				thirdBlood.value = userObj?.name;
-			}
-			counter++;
-		}
-	}
-}
+// async function getWinners() {
+// 	interface Response {
+// 		code: number;
+// 		data: Array<any>;
+// 	}
+// 	const { data: res } = await useAuthFetch(
+// 		`/submissions/?challenge_ids=${props.challengeId}&status=1&page=1&size=3&is_ascend=true?game_id=0`,
+// 		{
+// 			method: "GET"
+// 		});
+// 	const resObj = res.value as Response;
+// 	if (resObj.data) {
+// 		let counter = 1;
+// 		for (const item of resObj.data) {
+// 			const userObj = item?.user
+// 			if (counter === 1) {
+// 				firstBlood.value = userObj?.name;
+// 			} else if (counter === 2) {
+// 				secondBlood.value = userObj?.name;
+// 			} else if (counter === 3) {
+// 				thirdBlood.value = userObj?.name;
+// 			}
+// 			counter++;
+// 		}
+// 	}
+// }
 
 async function createInstance() {
 	interface Response {

@@ -114,17 +114,17 @@ const searchInput = ref("");
 challengeStore.loadChallenges(1);
 instanceStore.loadExistInstances();
 
-async function search() {
+function search() {
 	if (tab.value !== "all") {
 		const filters = searchInput.value ? `category=${tab.value}&title=${searchInput.value}` : `category=${tab.value}`;
-		await challengeStore.loadChallenges(1, filters);
+		challengeStore.loadChallenges(1, filters);
 	} else {
 		const filters = searchInput.value ? `title=${searchInput.value}` : ``;
-		await challengeStore.loadChallenges(1, filters);
+		challengeStore.loadChallenges(1, filters);
 	}
 }
 
-async function pagination() {
-	await challengeStore.loadChallenges(challengeStore.currentPage, challengeStore.lastFilters);
+function pagination() {
+	challengeStore.loadChallenges(challengeStore.currentPage, challengeStore.lastFilters);
 }
 </script>
